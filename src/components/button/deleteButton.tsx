@@ -1,19 +1,25 @@
-interface DeleteListButtonProps {
-  listId: string;
+interface DeleteButtonProps {
+  listId?: string;
+  taskId?: string;
   openModal?: () => void;
   deleteList?: (listId: string) => void;
+  deleteTask?: (taskId: string) => void;
 }
 
-const DeleteListButton = ({
+const DeleteButton = ({
   listId,
+  taskId,
   openModal,
   deleteList,
-}: DeleteListButtonProps) => {
+  deleteTask,
+}: DeleteButtonProps) => {
   const handleClick = () => {
     if (openModal) {
       openModal();
-    } else if (deleteList) {
+    } else if (listId && deleteList) {
       deleteList(listId);
+    } else if (taskId && deleteTask) {
+      deleteTask(taskId);
     }
   };
 
@@ -34,4 +40,4 @@ const DeleteListButton = ({
   );
 };
 
-export default DeleteListButton;
+export default DeleteButton;

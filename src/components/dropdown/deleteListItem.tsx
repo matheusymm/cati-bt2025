@@ -1,12 +1,13 @@
 import { useState } from "react";
-import DeleteListButton from "../button/deleteListButton";
-import DeleteListModal from "../modal/deleteListModal";
+import DeleteButton from "../button/deleteButton";
+import DeleteModal from "../modal/deleteModal";
+import { ListProps } from "../../context/list";
 
 interface DeleteListItemProps {
-  listId: string;
+  list: ListProps;
 }
 
-const DeleteListItem = ({ listId }: DeleteListItemProps) => {
+const DeleteListItem = ({ list }: DeleteListItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => {
@@ -19,12 +20,8 @@ const DeleteListItem = ({ listId }: DeleteListItemProps) => {
 
   return (
     <>
-      <DeleteListButton listId={listId} openModal={openModal} />
-      <DeleteListModal
-        listId={listId}
-        isOpen={isOpen}
-        onRequestClose={closeModal}
-      />
+      <DeleteButton listId={list.id} openModal={openModal} />
+      <DeleteModal list={list} isOpen={isOpen} onRequestClose={closeModal} />
     </>
   );
 };

@@ -6,7 +6,7 @@ interface NewListButtonProps {
 const NewListButton = ({ handleCreateList, isLoading }: NewListButtonProps) => {
   return (
     <button
-      className="flex flex-row items-center justify-between p-2 gap-2 cursor-pointer"
+      className="flex flex-row items-center justify-between p-2 gap-2 cursor-pointer hover:bg-liver rounded-[4px] w-[152px] h-[44px]"
       onClick={() => handleCreateList()}
       disabled={isLoading}
     >
@@ -16,7 +16,9 @@ const NewListButton = ({ handleCreateList, isLoading }: NewListButtonProps) => {
         width={24}
         height={24}
       />
-      <h6 className="text-white font-semibold text-xl">Nova lista</h6>
+      <h6 className="text-white font-semibold text-xl  whitespace-nowrap">
+        Nova lista
+      </h6>
     </button>
   );
 };

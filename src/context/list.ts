@@ -1,9 +1,11 @@
 import { Context, ContextType, createContext, useContext } from "react";
+import { TaskProps } from "./task";
 
 export type ListProps = {
   id: string;
   title: string;
   createdAt: string;
+  tasks: TaskProps[];
 };
 
 export type ListsProps = {
@@ -16,7 +18,7 @@ export type ListsProps = {
   fetchLists: () => Promise<void>;
   createList: (title: string) => Promise<ListProps | undefined>;
   deleteList: (id: string) => Promise<boolean>;
-  updateList: (id: string, title: string) => Promise<ListProps | undefined>;
+  updateList: (id: string, title: string) => Promise<boolean>;
 };
 
 export const ListsContext = createContext({} as ListsProps);

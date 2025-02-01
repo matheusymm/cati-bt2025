@@ -26,7 +26,7 @@ export const SnackbarProvider = ({
     <SnackbarContext.Provider value={{ notify }}>
       {children}
       {snackbar && (
-        <div className="flex flex-row justify-center items-center fixed top-4 left-1/2 transform -translate-x-1/2 p-4 px-4 py-2 gap-6 rounded-xl text-white bg-charleston-green border border-white">
+        <div className="flex flex-row justify-between items-center fixed top-4 left-1/2 transform -translate-x-1/2 p-4 px-4 py-2 gap-6 rounded-xl text-white bg-charleston-green border border-white w-[336px] h-[50px]">
           <img
             src="/src/assets/icons/check-circle.svg"
             alt="check-circle"

@@ -1,19 +1,32 @@
+import { useState } from "react";
+import { ListProps } from "../../context/list";
+import RenameListButton from "../button/renameListButton";
+import RenameListModal from "../modal/renameListModal";
+
 interface RenameListItemProps {
-  handleRenameList: () => void;
-  newName: string;
+  list: ListProps;
 }
 
-const RenameListItem = () => {
+const RenameListItem = ({ list }: RenameListItemProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
   return (
-    <div className="flex flex-row p-2 gap-2 cursor-pointer">
-      <img
-        src="/src/assets/icons/Pencil.svg"
-        alt="Pencil"
-        width={16}
-        height={16}
+    <>
+      <RenameListButton openModal={openModal} />
+      <RenameListModal
+        list={list}
+        isOpen={isOpen}
+        onRequestClose={closeModal}
       />
-      <p className="text-white text-base font-normal">Renomear Lista</p>
-    </div>
+    </>
   );
 };
 

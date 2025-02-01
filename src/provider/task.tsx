@@ -1,6 +1,7 @@
 import { ReactNode, useState } from "react";
 import { TasksContext, TaskProps } from "../context/task";
 import { api } from "../services/api";
+import { useSnackbarContext } from "../context/snakbar";
 
 type TasksProviderProps = {
   children: ReactNode;
@@ -14,6 +15,7 @@ export const TasksProvider = ({
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
   const [tasks, setTasks] = useState<TaskProps[]>([]);
+  const { notify } = useSnackbarContext();
 
   const fetchTasks = async () => {
     setIsLoading(true);
@@ -60,7 +62,9 @@ export const TasksProvider = ({
 
     await api
       .delete(`/tasks/${id}`)
-      .then(() => {
+      .then(async () => {
+        await fetchTasks();
+        notify("Task deletada com sucesso", "success");
         return true;
       })
       .catch((error) => {
@@ -75,16 +79,16 @@ export const TasksProvider = ({
 
   const updateTask = async (
     id: string,
-    title?: string,
-    description?: string,
-    priority?: string,
-    finishAt?: string,
-    listId?: string,
-    isFinished?: boolean
+    title: string,
+    description: string,
+    priority: string,
+    finishAt: string,
+    listId: string,
+    isFinished: boolean
   ) => {
     setIsLoadingUpdate(true);
 
-    await api
+    const success = await api
       .put(`/tasks/${id}`, {
         title,
         description,
@@ -93,16 +97,18 @@ export const TasksProvider = ({
         listId,
         isFinished,
       })
-      .then((response) => {
-        return response.data;
+      .then(async () => {
+        await fetchTasks();
+        return true;
       })
       .catch((error) => {
         console.error(error);
+        return false;
       })
       .finally(() => {
         setIsLoadingUpdate(false);
       });
-    return undefined;
+    return success;
   };
 
   return (

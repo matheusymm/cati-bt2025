@@ -1,13 +1,13 @@
 interface NewTaskButtonProps {
-  openModal: () => void;
+  handleCreateTask: () => void;
   isLoading: boolean;
 }
 
-const NewTaskButton = ({ openModal, isLoading }: NewTaskButtonProps) => {
+const NewTaskButton = ({ handleCreateTask, isLoading }: NewTaskButtonProps) => {
   return (
     <button
-      className="flex flex-row items-center justify-between p-2.5 gap-2.5 cursor-pointer"
-      onClick={() => openModal()}
+      className="flex flex-row items-center justify-between p-2.5 gap-2.5 cursor-pointer hover:bg-liver rounded-[4px] w-[152px] h-[44px]"
+      onClick={() => handleCreateTask()}
       disabled={isLoading}
     >
       <img

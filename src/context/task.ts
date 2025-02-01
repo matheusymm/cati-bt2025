@@ -1,4 +1,7 @@
 import { Context, ContextType, createContext, useContext } from "react";
+import { FileProps } from "./file";
+
+export type TaskPriority = "LOW" | "MEDIUM" | "HIGH" | "VERY_HIGH";
 
 export type TaskProps = {
   id: string;
@@ -10,6 +13,7 @@ export type TaskProps = {
   createdAt: string;
   updatedAt: string;
   listId: string;
+  files?: FileProps[];
 };
 
 export type TasksProps = {
@@ -30,13 +34,13 @@ export type TasksProps = {
   deleteTask: (id: string) => Promise<boolean>;
   updateTask: (
     id: string,
-    title?: string,
-    description?: string,
-    priority?: string,
-    finishAt?: string,
-    listId?: string,
-    isFinished?: boolean
-  ) => Promise<TaskProps | undefined>;
+    title: string,
+    description: string,
+    priority: string,
+    finishAt: string,
+    listId: string,
+    isFinished: boolean
+  ) => Promise<boolean>;
 };
 
 export const TasksContext = createContext({} as TasksProps);

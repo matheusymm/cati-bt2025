@@ -73,19 +73,22 @@ export const ListsProvider = ({
   const updateList = async (id: string, title: string) => {
     setIsLoadingUpdate(true);
 
-    await api
+    const success = await api
       .put(`/lists/${id}`, { title })
-      .then((response) => {
-        return response.data;
+      .then(async () => {
+        await fetchLists();
+        notify("Lista renomeada com sucesso", "success");
+        return true;
       })
       .catch((error) => {
         console.error(error);
+        return false;
       })
       .finally(() => {
         setIsLoadingUpdate(false);
       });
 
-    return undefined;
+    return success;
   };
 
   return (
