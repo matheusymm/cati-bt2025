@@ -10,6 +10,7 @@ export type TaskProps = {
   priority: string;
   finishAt: string;
   finishedAt?: string;
+  isFinished: boolean;
   createdAt: string;
   updatedAt: string;
   listId: string;

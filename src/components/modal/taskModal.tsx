@@ -9,6 +9,7 @@ import PriorityItem from "../dropdown/priorityItem";
 import { TaskProps, useTasksContext } from "../../context/task";
 import { customStyles } from "../../utils/selectStyle";
 import DeleteModal from "./deleteModal";
+import DateComponent from "../date";
 
 interface TaskModalProps {
   task: TaskProps;
@@ -26,6 +27,7 @@ const priorityOptions = [
 const TaskModal = ({ task, isOpen, closeModal }: TaskModalProps) => {
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const [isRenameTitle, setIsRenameTitle] = useState(false);
+  const [isNewFinishAt, setIsNewFinishAt] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [newFinishAt, setNewFinishAt] = useState("");
   const [newPriority, setNewPriority] = useState("");
@@ -60,6 +62,18 @@ const TaskModal = ({ task, isOpen, closeModal }: TaskModalProps) => {
     }
   };
 
+  const handleFinishTask = async () => {
+    await updateTask(
+      task.id,
+      task.title,
+      task.description,
+      task.priority,
+      task.finishAt,
+      task.listId,
+      true
+    );
+  };
+
   useEffect(() => {
     if (isOpen) {
       setNewTitle(task.title);
@@ -81,7 +95,10 @@ const TaskModal = ({ task, isOpen, closeModal }: TaskModalProps) => {
         <div className="flex flex-col w-[390px] md:w-[473px] h-[750px] gap-4 md:mt-10 ">
           <div className="flex flex-row justify-between items-center w-full md:mt-0 md:ml-0">
             <CloseTaskButton onClick={closeModal} />
-            <FinishTaskButton />
+            <FinishTaskButton
+              finishTask={handleFinishTask}
+              isFinished={task.finishedAt ? true : false}
+            />
           </div>
           <div className="flex flex-col justify-between w-full h-[114] gap-4 border-b border-liver">
             <div className="w-full h-16 justify-start py-2">
@@ -103,16 +120,25 @@ const TaskModal = ({ task, isOpen, closeModal }: TaskModalProps) => {
             </div>
           </div>
           <div className="flex flex-col w-full h-[84px] border-b border-liver gap-2.5">
-            <div className="flex flex-row w-[321px] h-7 gap-10">
+            <div className="flex flex-row w-[399px] h-7 gap-10 justify-center items-center">
               <p className="w-[321px] text-white font-semibold text-base">
                 Data de conclusão
               </p>
-              <input
-                type="date"
-                value={newFinishAt}
-                onChange={(e) => setNewFinishAt(e.target.value)}
-                className="w-[126px] text-white border border-liver rounded-sm px-2 py-1 gap-2 active:border-white"
-              />
+              {isNewFinishAt ? (
+                <input
+                  type="date"
+                  value={newFinishAt}
+                  onChange={(e) => setNewFinishAt(e.target.value)}
+                  className="w-[126px] text-white border border-liver rounded-sm px-2 py-1 gap-2 active:border-white"
+                />
+              ) : (
+                <div
+                  onDoubleClick={() => setIsNewFinishAt(true)}
+                  className="w-[180px] border border-liver rounded-sm"
+                >
+                  <DateComponent date={task.finishAt} isEdit={true} />
+                </div>
+              )}
             </div>
             <div className="flex flex-row w-[399px] h-9 gap-28 justify-center items-center">
               <p className="w-[85px] h-6 text-white font-semibold text-base">

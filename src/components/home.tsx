@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ListProps, useListsContext } from "../context/list";
+import { useTasksContext } from "../context/task";
 import Header from "./header";
 import Footer from "./footer";
 import ListPage from "./list/page";
@@ -7,6 +8,7 @@ import NewListButton from "./button/newListButton";
 
 const Home = () => {
   const { createList, fetchLists, lists, isLoadingCreate } = useListsContext();
+  const { fetchTasks } = useTasksContext();
   const [list, setList] = useState<ListProps | null>(null);
 
   const handleCreateList = async () => {
@@ -20,7 +22,8 @@ const Home = () => {
 
   useEffect(() => {
     fetchLists();
-  }, []);
+    fetchTasks();
+  }, [list]);
 
   return (
     <div className="flex flex-col w-screen h-screen">
